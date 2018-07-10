@@ -193,12 +193,13 @@ function objStateSums(arr) {
     console.log(element.amount);
   }
 
-  // Sum of ME amounts
+  //Sum of ME amounts
   function add(accum, currentVal, index, array) {
     return accum + currentVal;
   }
 
   arr.forEach(getStateKeys);
+  // I might need an array to work with these, because I can't work with object for functional methods
   let cash = arr.filter(findTheState).map(arrStateAmounts).reduce(add, 0).toFixed(2);
   obj["ME"] = parseFloat(cash);
   console.log(obj);
