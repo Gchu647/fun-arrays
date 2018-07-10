@@ -163,48 +163,22 @@ var sumOfInterests = interestOfStates(balances);
     if at any point durig your calculation where the number looks like `2486552.9779399997`
     round this number to the nearest 10th of a cent before moving on.
   )
-  List of States:
-    WI, IL, WY, OH, GA, DE
-
-  hasOwnProperty
  */
-function objStateSums(arr) {
+function objStateSums(balances) {
   let obj = {};
 
-  function getStateKeys(element, index, array) {
-    if(!obj.hasOwnProperty(element.state)) {
-      let key = element.state;
-      obj[key] = 0;
+  function addingToObj(accum, currentVal, index, array) {
+    if(!obj[currentVal.state]) {
+      obj[currentVal.state] = 0;
     }
+
+    // console.log("index: ", index);
+    // console.log(obj);
+    return obj[currentVal.state] += parseFloat(currentVal.amount);
   }
 
-  //Filter an array for just elements that have ME
-  function findTheState(element, index, array) {
-    if(element.state === "ME") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //Map an array with just the amounts of ME
-  function arrStateAmounts(element, index, array) {
-    return parseFloat(element.amount);
-    console.log(element.amount);
-  }
-
-  //Sum of ME amounts
-  function add(accum, currentVal, index, array) {
-    return accum + currentVal;
-  }
-
-  arr.forEach(getStateKeys);
-  // I might need an array to work with these, because I can't work with object for functional methods
-  let cash = arr.filter(findTheState).map(arrStateAmounts).reduce(add, 0).toFixed(2);
-  obj["ME"] = parseFloat(cash);
-  console.log(obj);
-
-  return obj;
+  console.log(balances.reduce(addingToObj, obj));
+  return balances.reduce(addingToObj, obj);
 }
 
 var stateSums = objStateSums(balances);
