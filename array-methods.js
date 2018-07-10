@@ -78,8 +78,8 @@ var datasetWithRoundedDollar = roundedDollars(balances);
 function roundedToDimes(arr) {
 
   function nearestDime(element, index, array) {
+    //Rounding it to the nearest 10th decimal
     let num = parseFloat(Math.round(element.amount * 10)/10);
-    element.roundedDime = num.toFixed(2);
  
     return {
       amount: element.amount,
@@ -146,7 +146,6 @@ function interestOfStates(arr) {
   return parseFloat(arr.filter(filterTheStates).map(mapTheAmounts).reduce(add).toFixed(2));
 }
 
-console.log(interestOfStates(balances));
 var sumOfInterests = interestOfStates(balances);
 
 /*
@@ -164,8 +163,50 @@ var sumOfInterests = interestOfStates(balances);
     if at any point durig your calculation where the number looks like `2486552.9779399997`
     round this number to the nearest 10th of a cent before moving on.
   )
+  List of States:
+    WI, IL, WY, OH, GA, DE
+
+  hasOwnProperty
  */
-var stateSums = null;
+function objStateSums(arr) {
+  let obj = {};
+
+  function getStateKeys(element, index, array) {
+    if(!obj.hasOwnProperty(element.state)) {
+      let key = element.state;
+      obj[key] = 0;
+    }
+  }
+
+  //Filter an array for just elements that have ME
+  function findTheState(element, index, array) {
+    if(element.state === "ME") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Map an array with just the amounts of ME
+  function arrStateAmounts(element, index, array) {
+    return parseFloat(element.amount);
+    console.log(element.amount);
+  }
+
+  // Sum of ME amounts
+  function add(accum, currentVal, index, array) {
+    return accum + currentVal;
+  }
+
+  arr.forEach(getStateKeys);
+  let cash = arr.filter(findTheState).map(arrStateAmounts).reduce(add, 0).toFixed(2);
+  obj["ME"] = parseFloat(cash);
+  console.log(obj);
+
+  return obj;
+}
+
+var stateSums = objStateSums(balances);
 
 /*
   for all states *NOT* in the following states:
