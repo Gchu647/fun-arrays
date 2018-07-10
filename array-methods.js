@@ -108,25 +108,46 @@ function sumOfAllAccounts(arr) {
     return total;
   }
 
-  return arr.map(objToNum).reduce(add);
+  return arr.map(objToNum).reduce(add, 0);
 }
 
-console.log(sumOfAllAccounts(balances));
 var sumOfBankBalances = sumOfAllAccounts(balances);
 
 /*
   from each of the following states:
-    Wisconsin
-    Illinois
-    Wyoming
-    Ohio
-    Georgia
-    Delaware
+    Wisconsin, WI
+    Illinois, IL
+    Wyoming, WY
+    Ohio, OH
+    Georgia, GA
+    Delaware DE
   take each `amount` and add 18.9% interest to it rounded to the nearest cent
   and then sum it all up into one value saved to `sumOfInterests`
  */
+function interestOfStates(arr) {
 
-var sumOfInterests = null;
+  function filterTheStates(element, index, array) {
+    if(element.state === "WI" || element.state === "IL" || element.state === "WY" || element.state === "OH" || element.state === "GA" || element.state === "DE") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function mapTheAmounts(element, index, array) {
+    let interest = (parseFloat(element.amount) * .189).toFixed(2);
+    return parseFloat(interest);
+  }
+
+  function add(accum, currentVal, index, array) {
+    return accum + currentVal;
+  }
+
+  return parseFloat(arr.filter(filterTheStates).map(mapTheAmounts).reduce(add).toFixed(2));
+}
+
+console.log(interestOfStates(balances));
+var sumOfInterests = interestOfStates(balances);
 
 /*
   aggregate the sum of bankBalance amounts
