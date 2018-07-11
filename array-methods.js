@@ -171,14 +171,20 @@ function objStateSums(balances) {
     if(!obj[currentVal.state]) {
       obj[currentVal.state] = 0;
     }
-
-    // console.log("index: ", index);
-    // console.log(obj);
-    return obj[currentVal.state] += parseFloat(currentVal.amount);
+    
+    return obj[currentVal.state] += parseFloat(currentVal.amount); //Cant return this or only currentVal.amount is passed back
   }
 
-  console.log(balances.reduce(addingToObj, obj));
-  return balances.reduce(addingToObj, obj);
+  balances.reduce(addingToObj, obj);
+
+  for (let x in obj) {
+    let num = parseFloat(obj[x].toFixed(2));
+    obj[x] = num;
+  }
+
+  console.log("obj: ", obj);
+
+  return obj;
 }
 
 var stateSums = objStateSums(balances);
